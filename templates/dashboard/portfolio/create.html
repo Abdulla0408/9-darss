@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <h2>Create New Portfolio Item</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <input type="text" class="form-control" id="category" name="category" required>
+                </div>
+                <div class="mb-3">
+                    <label for="project_date" class="form-label">Project Date</label>
+                    <input type="date" class="form-control" id="project_date" name="project_date" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Portfolio Item</button>
+                <a href="{% url 'portfolio_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

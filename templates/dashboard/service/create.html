@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <h2>Create New Service</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon Image</label>
+                    <input type="file" class="form-control" id="icon" name="icon" accept="image/*" required>
+                    <small class="form-text text-muted">Upload an image for the service icon</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Service</button>
+                <a href="{% url 'service_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

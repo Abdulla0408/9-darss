@@ -1,0 +1,29 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block content %}
+<main class="page-content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="border p-3 rounded">
+                        <h6 class="mb-0 text-uppercase">Blog postni o'chirish</h6>
+                        <hr>
+                        <p>Siz haqiqatan ham "{{ blog_post.title }}" sarlavhali blog postni o'chirmoqchimisiz?</p>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <button type="submit" class="btn btn-danger px-5">O'chirish</button>
+                                    <a href="{% url 'blog_list' %}" class="btn btn-secondary px-5">Bekor qilish</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

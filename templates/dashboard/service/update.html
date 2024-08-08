@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <h2>Update Service</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ service.title }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ service.description }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon Image</label>
+                    <input type="file" class="form-control" id="icon" name="icon" accept="image/*">
+                    <small class="form-text text-muted">Upload a new image for the service icon (leave empty to keep the current image)</small>
+                    {% if service.icon %}
+                        <p class="mt-2">Current icon: <img src="{{ service.icon.url }}" alt="Current Icon" style="max-width: 100px; max-height: 100px;"></p>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Update Service</button>
+                <a href="{% url 'service_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

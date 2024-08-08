@@ -1,0 +1,89 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ism Familiya</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Holat</th>
+                        <th>Sana</th>
+                        <th>Harakatlar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ contact.full_name }}</td>
+                        <td>{{ contact.phone }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>
+                            {% if contact.harakatlar %}
+                            <button class="btn btn-success btn-sm">Ko'rilgan</button>
+                            {% else %}
+                            <button class="btn btn-warning btn-sm">Yangi</button>
+                            {% endif %}
+                        </td>
+                        <td>{{ contact.created_at }}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-3 fs-6">
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#changeStatusModal{{ contact.id }}">O'zgartirish
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Modal for changing status -->
+                    <div class="modal fade" id="changeStatusModal{{ contact.id }}" tabindex="-1"
+                         aria-labelledby="changeStatusModalLabel{{ contact.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="changeStatusModalLabel{{ contact.id }}">Holatni
+                                        o'zgartirish</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="{% url 'update_status' contact.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <p>Ushbu {{contact.full_name}} kontaktning holatini o'zgartirishni xohlaysizmi?</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="agreeCheckbox{{ contact.id }}" required>
+                                            <label class="form-check-label" for="agreeCheckbox{{ contact.id }}">
+                                                Roziman
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor
+                                            qilish
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="submitButton{{ contact.id }}" disabled>O'zgartirish</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.getElementById('agreeCheckbox{{ contact.id }}').addEventListener('change', function() {
+                            document.getElementById('submitButton{{ contact.id }}').disabled = !this.checked;
+                        });
+                    </script>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

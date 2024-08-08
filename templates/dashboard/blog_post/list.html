@@ -1,0 +1,52 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block content %}
+<main class="page-content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0">Blog postlar ro'yxati</h5>
+                        <div class="ms-auto position-relative">
+                            <a href="{% url 'blog_create' %}" class="btn btn-primary">Yangi post qo'shish</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table align-middle">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Sarlavha</th>
+                                    <th>Muallif</th>
+                                    <th>Kategoriya</th>
+                                    <th>Sana</th>
+                                    <th>Harakatlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for blog_post in blog_posts %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ blog_post.title }}</td>
+                                    <td>{{ blog_post.author }}</td>
+                                    <td>{{ blog_post.category }}</td>
+                                    <td>{{ blog_post.publication_date|date:"d-m-Y" }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3 fs-6">
+                                            <a href="{% url 'blog_update' blog_post.id %}" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                            <a href="{% url 'blog_delete' blog_post.id %}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

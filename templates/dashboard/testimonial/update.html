@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <h2>Update Testimonial</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ testimonial.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="position" class="form-label">Position</label>
+                    <input type="text" class="form-control" id="position" name="position" value="{{ testimonial.position }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="3" required>{{ testimonial.content }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    <small class="form-text text-muted">Optional: Upload a new image or leave blank to keep the current one</small>
+                    {% if testimonial.image %}
+                        <p>Current image: {{ testimonial.image.name }}</p>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Update Testimonial</button>
+                <a href="{% url 'testimonial_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axo Personal Portfolio</title>
+    <link rel="stylesheet" href="{% static 'front/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'front/css/font-awesome-pro.css' %}" />
+    <link rel="stylesheet" href="{% static 'front/css/swiper-bundle.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'front/css/magnific-popup.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'front/css/main.css' %}" />
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="loader_line"></div>
+    </div>
+
+    <header class="position-absolute w-100 text-white">
+      <div class="container">
+        <div class="logo">
+          <a href="#home">@axo<span class="text-primary">.me</span></a>
+        </div>
+        <ul class="menus">
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li class="current"><a href="#services">Xizmatlar</a></li>
+          <li><a href="#portfolio">Ish</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Biz bilan bog'laning</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="#"><i class="fa-sharp fa-regular fa-basketball"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+        </div>
+        <div class="toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </header>
+    <section id="home" class="text-white bg-hero-bg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 col-12">
+            <h1>Axo - Zamonaviy Web Yechimlar</h1>
+            <p class="short-bio">
+              Biz O'zbekistonda joylashgan veb-dizayn va dasturlash agentligimiz. Biz mijozlarimizga innovatsion va foydalanuvchilarga qulay veb-ilovalarni yaratishga intilamiz.
+            </p>
+            <a href="#contact" class="cf-btn">Biz bilan bog'laning</a>
+            <div class="counter d-flex align-center content-space-between">
+              <div class="experence">
+                <h2><span class="count">5</span>+</h2>
+                <p class="font-20px">Yillik tajriba</p>
+              </div>
+              <div class="project">
+                <h2><span class="count">200</span>+</h2>
+                <p class="font-20px">Bajarilgan loyihalar</p>
+              </div>
+              <div class="clients">
+                <h2><span class="count">100</span>+</h2>
+                <p class="font-20px">Mamnun mijozlar</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="hero-right">
+              <div class="hero-right-bg"></div>
+              <img src="{% static 'front/images/author/hero.png' %}" alt="Axo jamoasi" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="extra-bg"></div>
+    </section>
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <p class="sub-title">Bizning xizmatlarimiz</p>
+          <h2>
+            Biz mijozlarimiz uchun nima qilamiz
+          </h2>
+        </div>
+        <div class="card-container">
+          <div class="row">
+            {% for service in services %}
+            <div class="col-md-6 col-xl-4">
+              <div class="service-card">
+                <div class="img-container">
+                  <img src="{{ service.img.url }}" alt="{{ service.title }}" />
+                </div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description }}</p>
+                <a href="#services_{{ service.id }}" class="link"></a>
+
+                <div class="mfp-fade mfp-hide" id="services_{{ service.id }}">
+                  <div class="content">
+                    <div class="img">
+                      <img src="{% static 'front/images/services/'|add:service.id|add:'.jpg' %}" alt="{{ service.title }}" />
+                    </div>
+                    <div class="des">
+                      <h4>{{ service.title }}</h4>
+                      <p>{{ service.full_description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <div class="section-title">
+          <p class="sub-title">Mening Portfoliolarim</p>
+          <h2>
+            Mening eng yaxshi ishlarimni namoyishi
+          </h2>
+        </div>
+        <div class="portfolio-container">
+          <div class="filter-btn">
+            <a href="#" class="active" data-filter="*">All</a>
+            {% for category in categories %}
+            <a href="#" data-filter=".{{ category|slugify }}">{{ category }}</a>
+            {% endfor %}
+          </div>
+          <div class="portfolio-items">
+            {% for portfolio in portfolios %}
+            <div class="item {{ portfolio.category|slugify }}">
+              {% if portfolio.image %}
+                <a href="#details-popup-{{ portfolio.id }}" class="popup-link">
+                  <img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}"/>
+                  <div class="item-overlay">
+                    <h3>{{ portfolio.title }}</h3>
+                    <p>{{ portfolio.category }}</p>
+                  </div>
+                </a>
+              {% endif %}
+              <div class="mfp-hide" id="details-popup-{{ portfolio.id }}">
+                <div class="popup-content">
+                  {% if portfolio.image %}
+                  <div class="popup-image">
+                    <img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}" />
+                  </div>
+                  {% endif %}
+                  <div class="popup-details">
+                    <h3>{{ portfolio.title }}</h3>
+                    <p class="category">{{ portfolio.category }}</p>
+                    <p class="description">{{ portfolio.description }}</p>
+                    {% if portfolio.project_date %}
+                    <p class="date">Project Date: {{ portfolio.project_date }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="testimonials">
+      <div class="container">
+        <div class="testimonials-top">
+          <div class="section-title left">
+            <p class="sub-title">Testimonials</p>
+            <h2>
+              Mijozlarimizning <br />
+               fikrlari
+            </h2>
+          </div>
+          <div class="arrows">
+            <a class="arrow arrow-left active">
+              <i class="fa-solid fa-chevron-left"></i>
+            </a>
+            <a class="arrow arrow-right">
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="testimonial-sliders swiper">
+          <div class="swiper-wrapper">
+            {% for testimonial in testimonials %}
+            <div class="slider-item swiper-slide">
+              <div class="slider-item-content">
+                <p>
+                  {{ testimonial.content }}
+                </p>
+                <div class="author-info">
+                  <div class="image-container">
+                    <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" />
+                  </div>
+                  <div class="author-info-content">
+                    <h3>{{ testimonial.name }}</h3>
+                    <p class="complay-name">{{ testimonial.company }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="client">
+      <div class="container">
+        <div class="bg-primary client-container">
+          <div class="swiper client-slider">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <a href="#"
+                  ><img src="{% static 'front/images/colaborators/1.png' %}" alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="#"
+                  ><img src="{% static 'front/images/colaborators/2.png' %}" alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="#"
+                  ><img src="{% static 'front/images/colaborators/3.png' %}" alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="#"
+                  ><img src="{% static 'front/images/colaborators/4.png' %}" alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a href="#"
+                  ><img src="{% static 'front/images/colaborators/5.png' %}" alt=""
+                /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="blog">
+      <div class="container">
+        <div class="section-title">
+          <p class="sub-title">Mening blogim</p>
+          <h2>
+            Bizning so'nggi yangiliklarimiz,<br />
+            maslahatlarimiz va boshqalar
+          </h2>
+        </div>
+        <div class="row blog-items">
+          {% for blog in blogs %}
+          <div class="col-md-6 col-lg-4">
+            <div class="blog-item">
+              <div class="blog-image-container">
+                <a href="#blog-popup-{{ blog.id }}"
+                  ><img src="{{ blog.image.url }}" alt="{{ blog.title }}"
+                /></a>
+              </div>  
+              <div class="blog-content">
+                <p><span>{{ blog.category }}</span> / {{ blog.created_at|date:"d.m.Y" }}</p>
+                <h4>
+                  <a href="#blog-popup-{{ blog.id }}"
+                    >{{ blog.title }}</a
+                  >
+                </h4>
+                <p>
+                  {{ blog.short_description }}
+                </p>
+              </div>
+              <div id="blog-popup-{{ blog.id }}" class="mfp-fade mfp-hide">
+                <div class="content">
+                  <div class="img">
+                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}" />
+                  </div>
+                  <div class="des">
+                    <p class="category">
+                      <span>{{ blog.category }}</span> / {{ blog.created_at|date:"d.m.Y" }}
+                    </p>
+                    <h4>{{ blog.title }}</h4>
+                    <p>{{ blog.content|safe }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="container">
+        <div class="row align-center">
+          <div class="col-lg-6">
+            <div class="section-title left">
+              <p class="sub-title">Biz bilan bog'laning!</p>
+              <h2>Taklif, yordam yoki jamoaga qo'shilish uchun biz bilan bog'laning</h2>
+            </div>
+            <ul class="info-details">
+              <li>
+                <h4>Elektron pochta</h4>
+                <p>abdullahayitboyev0408@gmail.com</p>
+              </li>
+              <li>
+                <h4>Manzil</h4>
+                <p>
+                  Toshkent shahri, Chilonzor tumani, 1-kvartal, 1-uy
+                </p>
+              </li>
+              <li>
+                <h4>Telefon</h4>
+                <p>+998 90 123 45 67</p>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <form action="{% url 'contact_create' %}" method="POST" class="contact-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="full_name" placeholder="Ismingiz" required />
+              </div>
+              <div class="form-group">
+                <input type="email" name="email" placeholder="Elektron pochtangiz" required />
+              </div>
+              <div class="form-group">
+                <input type="tel" name="phone" placeholder="Telefon raqamingiz" required />
+              </div>
+              <div class="form-group">
+                <textarea name="message" placeholder="Xabaringiz"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="cf-btn">Xabar yuborish</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="container">
+        <div class="copy-right-text">
+          Abdulloh tomonidaan 2024-yilda yaratildi
+        </div>
+      </div>
+    </footer>
+    <div class="progress">
+      <svg
+        class="progress-svg"
+        width="100%"
+        height="100%"
+        viewBox="-1 -1 102 102"
+      >
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+      </svg>
+    </div>
+    <div class="cursor"></div>
+    <script src="{% static 'front/js/jquery.min.js' %}"></script>
+    <script src="{% static 'front/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'front/js/imagesloaded-pkgd.min.js' %}"></script>
+    <script src="{% static 'front/js/isotope-pkgd.min.js' %}"></script>
+    <script src="{% static 'front/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'front/js/counterup.min.js' %}"></script>
+    <script src="{% static 'front/js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'front/js/scroll-to-top.mini.js' %}"></script>
+    <script src="{% static 'front/js/jquery.nav.min.js' %}"></script>
+    <script src="{% static 'front/js/tilt.jquery.min.js' %}"></script>
+    <script src="{% static 'front/js/main.js' %}"></script>
+  </body>
+</html>

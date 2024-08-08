@@ -1,0 +1,44 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="card">
+        <div class="card-body">
+            <h2>Portfolio List</h2>
+            <a href="{% url 'portfolio_create' %}" class="btn btn-primary mb-3">Add New Portfolio Item</a>
+            
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Project Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for portfolio in portfolios %}
+                        <tr>
+                            <td>{{ portfolio.title }}</td>
+                            <td>{{ portfolio.description|truncatewords:20 }}</td>
+                            <td>{{ portfolio.category }}</td>
+                            <td>{{ portfolio.project_date }}</td>
+                            <td>
+                                <a href="{% url 'portfolio_update' portfolio.id %}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{% url 'portfolio_delete' portfolio.id %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No portfolio items available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
